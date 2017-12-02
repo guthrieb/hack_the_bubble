@@ -44,7 +44,7 @@ public class Spawn
 }
 
   public static Spawn generateFlames(){
-    Spawn player = Main.objects.get(0);
+    Spawn player = DrawWindow.objects.get(0);
 
     Spawn flame = generateArrow(player.getX(), player.getY(), player.vx*2, player.vy*2);
 
