@@ -9,9 +9,9 @@ public class MoveEngine extends Thread {
     private ArrayList<Accel> constForces = new ArrayList<Accel>();
 
     public void run() {
-        Spawn player = new Spawn(0, -1);
+        Spawn player = new Spawn(300, -100);
         Main.objects.add(player);
-        Main.objects.add(Spawn.generateArrow(player.getX() + 500, player.getY() + 500, 0, 0));
+        //Main.objects.add(Spawn.generateArrow(player.getX() + 500, player.getY() + 500, 0, 0));
         curTime = System.currentTimeMillis();
         initializeConstForces();
 
@@ -139,13 +139,13 @@ public class MoveEngine extends Thread {
                 }
             }
         }
-        ArrayList<Spawn> remove = new ArrayList<>();
-        for (Spawn s : Main.objects) {
-            if (s.hp <= 0) {
-                remove.add(s);
-            }
-        }
-        Main.objects.removeAll(remove);
+//        ArrayList<Spawn> remove = new ArrayList<>();
+//        for (Spawn s : Main.objects) {
+//            if (s.hp <= 0) {
+//                remove.add(s);
+//            }
+//        }
+//        Main.objects.removeAll(remove);
     }
 
     private synchronized void updatehp(Spawn one, Spawn two) {
@@ -204,7 +204,7 @@ public class MoveEngine extends Thread {
 
         if (s.getY() > maxY) {
 		    if(s.type == TYPE.ARROW || s.type == TYPE.DRAGON || s.type == TYPE.CANNONBALL){
-		        Main.objects.remove(s);
+		        //Main.objects.remove(s);
             }else{
                 s.updatePos(s.getX(), maxY);
                 s.updateVelocity(s.vx(), (s.vy() * -Main.BOUNCE));
