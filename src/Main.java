@@ -21,7 +21,7 @@ public class Main {
     public static final double GRAVITY = 1000;
     public static final double DRAG = 0.2;
     public static final double BOUNCE = 0.9;
-    public static final String TITLE = "Dragonbois";
+    public static final String TITLE = "Here be dragons!";
 
     public static final double INIT_ARROW_DX = 1000;
     public static final double INIT_ARR_DY = 1500;
@@ -48,17 +48,14 @@ public class Main {
         moveEngine.start();
         // Run the animation loop.
         runAnimation();
-
-        System.out.println(allDeadCounter);
-        System.out.println(giveBirthCounter);
     }
 
     public static void runAnimation() {
 
         String path = "assets/img/";
 
-        //TODO loop load
-        String imgName = "dragon.jpg";
+        //TODO load in memory
+        String imgName = "dragon2.png";
         BufferedImage img;
         try {
             img = ImageIO.read(new File(path + imgName));
@@ -67,58 +64,25 @@ public class Main {
             e.printStackTrace();
             return;
         }
-//         Set up some variables.
-//        int fps = 0;
-//        int frames = 0;
-//        long totalTime = 0;
-//        long curTime = System.currentTimeMillis();
-//        long lastTime = curTime;
 //         Start the loop.
         while (isRunning) {
             try {
-                // Calculations for FPS.
-//                lastTime = curTime;
-//                curTime = System.currentTimeMillis();
-//                totalTime += curTime - lastTime;
-//                if (totalTime > 1000) {
-//                    totalTime -= 1000;
-//                    fps = frames;
-//                    frames = 0;
-//                }
-//                ++frames;
                 // clear back bufferedImage...
                 g2d = bufferedImage.createGraphics();
                 g2d.setColor(Color.WHITE);
                 g2d.fillRect(0, 0, X, Y);
-//                canvas.setBackground(Color.WHITE);
                 // Draw entities
                 for (Spawn s : objects) {
-//                    g2d.setColor(Color.BLACK);
                     affineTransform = new AffineTransform();
-//                    affineTransform = AffineTransform.getScaleInstance(0.1, 0.1);
-//                    affineTransform.translate(objects.get(i).getX(), objects.get(i).getY());
-
-                    affineTransform.translate(s.getX(), s.getY());
-                    affineTransform.rotate(s.rotation.angle());
-//                    g2d.rotate(s.rotation.angle(), s.getX(), s.getY());
+                    double iw2 = img.getWidth()/2, ih2 = img.getHeight()/2;
+                    affineTransform.translate(s.getX()-iw2, s.getY()-ih2);
+                    affineTransform.rotate(s.rotation.angle(), iw2, ih2);
                     g2d.drawRenderedImage(img, affineTransform);
-
-//                    g2d.fill(new Rectangle2D.Double(s.getX(), s.getY(), s.getRadius() * 0.5, s.getRadius() * 0.5));
-
-//                    g2d.rotate(-s.rotation.angle(), s.getX(), s.getY());
-
-
                 }
-                // display frames per second...
-//                g2d.setFont(new Font("Courier New", Font.PLAIN, 12));
-//                g2d.setColor(Color.GREEN);
-//                g2d.drawString(String.format("FPS: %s", fps), 20, 20);
                 // Blit image and flip...
                 graphics = bufferStrategy.getDrawGraphics();
                 graphics.drawImage(bufferedImage, 0, 0, null);
-                if (!bufferStrategy.contentsLost()) {
-                    bufferStrategy.show();
-                }
+                if (!bufferStrategy.contentsLost()) bufferStrategy.show();
                 // Let the OS have a little time...
                 Thread.sleep(15);
             }
@@ -132,24 +96,6 @@ public class Main {
             }
             //</editor-fold>
         }
-    }
-
-    static int allDeadCounter = 0;
-    static int giveBirthCounter = 0;
-
-    public static boolean allDead() {
-        allDeadCounter++;
-        if (objects.size() < 1) return true;
-        return false;
-    }
-
-    public static synchronized int giveBirth(int x, int y, double vx,
-                                             double vy, int m) {
-        giveBirthCounter++;
-        System.out.println("");
-        if (objects.size() >= MAX_SPAWN) return 1;
-        objects.add(new Spawn(x, y, vx, vy, m, 0, -1, TYPE.DRAGON));
-        return 0;
     }
 
     private static void initializeJFrame() {
