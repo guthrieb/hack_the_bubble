@@ -60,14 +60,14 @@ public class Spawn {
   }
 
   public static Spawn generateCannonball(double vx, double vy) {
-    double y = 0.25*Main.Y;
+    double y = 0.25*Main.screenHeight;
     double ran = Math.random();
     double x;
     if (ran<0.5) {
       x = 0;
     }
     else {
-      x = Main.X;
+      x = Main.screenWidth;
       vx*=-1;
     }
     Spawn cball = new Spawn(x, y, vx, vy, 20, vx, vy, TYPE.CANNONBALL);
@@ -108,7 +108,7 @@ public class Spawn {
   public static Spawn generateFlames(){
     Spawn player = Main.objects.get(0);
 
-        Spawn flame = generateArrow(player.getX(), player.getY(), player.vx * 2, player.vy * 2);
+      Spawn flame = new Spawn(player.getX(), player.getY(), player.vx * 2, player.vy * 2, 10, player.vx * 2, player.vy * 2, TYPE.FIREBALL);
 
         return flame;
     }

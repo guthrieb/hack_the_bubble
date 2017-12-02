@@ -203,16 +203,15 @@ public class MoveEngine extends Thread {
         int maxX = Main.screenWidth - s.dimX();
 
         if (s.getY() > maxY) {
-            if (s.type == TYPE.ARROW || s.type == TYPE.DRAGON) {
-                Main.objects.remove(s);
-            }
-            else {
+		    if(s.type == TYPE.ARROW || s.type == TYPE.DRAGON || s.type == TYPE.CANNONBALL){
+		        Main.objects.remove(s);
+            }else{
                 s.updatePos(s.getX(), maxY);
                 s.updateVelocity(s.vx(), (s.vy() * -Main.BOUNCE));
             }
         }
-        if (s.getX() > maxX) {
-            if (s.type == TYPE.ARROW) {
+		if (s.getX() > maxX) {
+            if(s.type == TYPE.ARROW || s.type == TYPE.CANNONBALL){
                 Main.objects.remove(s);
             }
             else {
@@ -220,8 +219,8 @@ public class MoveEngine extends Thread {
                 s.updateVelocity((s.vx() * -Main.BOUNCE), s.vy());
             }
         }
-        if (s.getX() < 1) {
-            if (s.type == TYPE.ARROW) {
+		if (s.getX() < 1) {
+            if(s.type == TYPE.ARROW|| s.type == TYPE.CANNONBALL){
                 Main.objects.remove(s);
             }
             else {
@@ -231,3 +230,4 @@ public class MoveEngine extends Thread {
         }
     }
 }
+
