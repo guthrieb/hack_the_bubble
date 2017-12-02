@@ -8,7 +8,7 @@ public class Spawn
   public Vector2D rotation;
   public TYPE type;
 
-  public Spawn(int x, int y, double vx, double vy, int m, double anglex, double angley,  TYPE type)
+  public Spawn(double x, double y, double vx, double vy, double m, double anglex, double angley,  TYPE type)
   {
     this.x = x;
     this.y = y;
@@ -39,7 +39,7 @@ public class Spawn
 
   public Spawn(int x, int y)
   {
-    this(x, y, 0.0, 0.0, 10, 0.1, 0.1, TYPE.DRAGON);
+    this(x, y, 0, 0, 10, 0.1, 0.1, TYPE.DRAGON);
   }
 
   public Vector2D velVector()
@@ -47,11 +47,19 @@ public class Spawn
     return new Vector2D(this.vx(), this.vy());
   }
 
-    public static Spawn generateArrow(int x, int y, int vx, int vy){
+  public static Spawn generateArrow(double x, double y, double vx, double vy){
         Spawn newarrow = new Spawn(x, y, vx, vy, 10, vx, vy, TYPE.ARROW);
 
         return newarrow;
-    }
+}
+
+  public static Spawn generateFlames(){
+    Spawn player = DrawWindow.objects.get(0);
+
+    Spawn flame = generateArrow(player.getX(), player.getY(), player.vx*2, player.vy*2);
+
+    return flame;
+  }
 
   public void applyDrag(double drag)
   {
