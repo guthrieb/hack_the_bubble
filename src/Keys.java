@@ -2,10 +2,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class Keys implements KeyListener {
-  public boolean leftDown;
-  public boolean rightDown;
-  public boolean upDown;
-  public boolean spaceDown;
+  public static boolean leftDown;
+  public static boolean rightDown;
+  public static boolean upDown;
+  public static boolean spaceDown;
 
   @Override
   public void keyTyped(KeyEvent keyEvent) {
@@ -13,6 +13,7 @@ public class Keys implements KeyListener {
   }
 
   public void keyPressed(KeyEvent e) {
+      System.out.println("Hello");
     int code = e.getKeyCode();
     switch(code) {
       case KeyEvent.VK_UP:

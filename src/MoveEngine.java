@@ -11,9 +11,14 @@ public class MoveEngine extends Thread
 
 	public void run()
 	{
+		Spawn player = new Spawn(0,-1);
+		Main.objects.add(player);
 		curTime = System.currentTimeMillis();
 		initializeConstForces();
 		while (Main.isRunning) {
+			player = Main.objects.get(0);
+			//System.out.println(player.getX());
+			updatePlayerV();
 			updateTime();
 			applyConstForces();
 			sumForces();
@@ -23,6 +28,33 @@ public class MoveEngine extends Thread
 			} catch (InterruptedException e) {
 			}
 		}
+	}
+
+	private void updatePlayerV()
+	{
+		Spawn player = Main.objects.get(0);
+
+		if(Keys.leftDown){
+			player.rotation.rotateCoordinates(0.003);
+            System.out.println(player.rotation.angle());
+        }
+
+		if(Keys.rightDown){
+			player.rotation.rotateCoordinates(-0.003);
+            System.out.println(player.rotation.angle());
+		}
+
+        if(Keys.upDown){
+			double angle = Math.toRadians(player.rotation.angle());
+
+			double ax = Main.UPA*(Math.cos(player.rotation.angle()));
+            System.out.println("x component: " + ax);
+            double ay = Main.UPA*(Math.sin(player.rotation.angle()));
+            System.out.println("y component: " + ay);
+
+			player.addAccel(new Accel(ax, ay));
+		}
+
 	}
 
 	private void updateTime()
@@ -140,8 +172,8 @@ public class MoveEngine extends Thread
 
 	private synchronized void checkWallCollisions(Spawn s)
 	{
-		int maxY = 480 - s.dimY();
-		int maxX = 640 - s.dimX();
+		int maxY = Main.Y - s.dimY();
+		int maxX = Main.X - s.dimX();
 		if (s.getY() > maxY) {
 			s.updatePos(s.getX(), maxY);
 			s.updateVelocity(s.vx(), (s.vy() * -Main.BOUNCE));

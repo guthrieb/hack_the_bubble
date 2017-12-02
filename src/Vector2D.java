@@ -8,11 +8,14 @@ public class Vector2D
 	{
 		this.x = x;
 		this.y = y;
-		this.restoreAngle = 0.0;
+		this.restoreAngle = 0;
 	}
 
 	public double angle()
 	{
+		System.out.println("Angle val X: " + x);
+		System.out.println("\n Angle val y: " + y);
+
 		return Math.atan2(y, x);
 	}
 

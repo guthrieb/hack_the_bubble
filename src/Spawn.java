@@ -5,6 +5,7 @@ public class Spawn
 {
   private double x, y, vx, vy, radius;
   private ArrayList<Accel> accelerations = new ArrayList<Accel>();
+  public Vector2D rotation;
 
   public Spawn(int x, int y, double vx, double vy, int m)
   {
@@ -13,6 +14,7 @@ public class Spawn
     this.vx = vx;
     this.vy = vy;
     this.radius = 15.0;
+    this.rotation = new Vector2D(0,-1 );
   }
 
   public Spawn(int x, int y)
@@ -92,12 +94,12 @@ public class Spawn
 
   public double getX()
   {
-    return this.x;
+    return x;
   }
 
   public double getY()
   {
-    return this.y;
+    return y;
   }
 
   public double getX2()
