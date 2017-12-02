@@ -28,6 +28,7 @@ public class MoveEngine extends Thread
 			applyConstForces();
 			sumForces();
 			moveEnts();
+
 			try {
 				sleep(1);
 			} catch (InterruptedException e) {
@@ -50,7 +51,6 @@ public class MoveEngine extends Thread
 		}
 
         if(Keys.upDown){
-			double angle = Math.toRadians(player.rotation.angle());
 
 			double ax = Main.UPA*(Math.cos(player.rotation.angle()));
             double ay = Main.UPA*(Math.sin(player.rotation.angle()));
@@ -129,8 +129,29 @@ public class MoveEngine extends Thread
 				double distBetween = sCenter.distance(tCenter);
 				double bigR = s.getRadius() > t.getRadius() ? s.getRadius() : t
 						.getRadius();
-				if (distBetween < (bigR * 2)) collide(s, t, distBetween);
+				if (distBetween < (bigR * 2)){
+					collide(s, t, distBetween);
+					updatehp(s,t);
+				}
 			}
+		}
+		ArrayList<Spawn> remove = new ArrayList<>();
+		for (Spawn s : Main.objects) {
+			if (s.hp <= 0) {
+				remove.add(s);
+			}
+		}
+		Main.objects.removeAll(remove);
+	}
+
+	private synchronized void updatehp(Spawn one, Spawn two){
+		if (one.type == TYPE.DRAGON || two.type == TYPE.DRAGON) {
+			one.hp -= 2;
+			two.hp -= 2;
+		}
+		else {
+			one.hp -= 1;
+			two.hp -=1;
 		}
 	}
 
@@ -180,7 +201,7 @@ public class MoveEngine extends Thread
 		int maxX = Main.X - s.dimX();
 
         if (s.getY() > maxY) {
-		    if(s.type == TYPE.ARROW){
+		    if(s.type == TYPE.ARROW || s.type == TYPE.DRAGON){
 		        Main.objects.remove(s);
             }else{
                 s.updatePos(s.getX(), maxY);

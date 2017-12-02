@@ -1,4 +1,5 @@
 public enum TYPE {
         DRAGON,
-        ARROW
+        ARROW,
+        CANNONBALL,
 }
