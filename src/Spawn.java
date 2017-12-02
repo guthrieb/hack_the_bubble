@@ -62,7 +62,17 @@ public class Spawn
         return newarrow;
   }
 
-  public static Spawn generateCannonball(double x, double y, double vx, double vy) {
+  public static Spawn generateCannonball(double vx, double vy) {
+    double y = 0.25*Main.Y;
+    double ran = Math.random();
+    double x;
+    if (ran<0.5) {
+      x = 0;
+    }
+    else {
+      x = Main.X;
+      vx*=-1;
+    }
     Spawn cball = new Spawn(x, y, vx, vy, 20, vx, vy, TYPE.CANNONBALL);
     return cball;
   }
