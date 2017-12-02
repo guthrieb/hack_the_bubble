@@ -6,8 +6,9 @@ public class Spawn
   private double x, y, vx, vy, radius;
   private ArrayList<Accel> accelerations = new ArrayList<Accel>();
   public Vector2D rotation;
+  private TYPE type;
 
-  public Spawn(int x, int y, double vx, double vy, int m)
+  public Spawn(int x, int y, double vx, double vy, int m, TYPE type)
   {
     this.x = x;
     this.y = y;
@@ -15,11 +16,16 @@ public class Spawn
     this.vy = vy;
     this.radius = 15.0;
     this.rotation = new Vector2D(0,-1 );
+    this.type = type;
   }
+
+  public TYPE getType(){
+      return this.type;
+    }
 
   public Spawn(int x, int y)
   {
-    this(x, y, 0.0, 0.0, 100);
+    this(x, y, 0.0, 0.0, 100, TYPE.DRAGON);
   }
 
   public Vector2D velVector()

@@ -12,6 +12,7 @@ public class MoveEngine extends Thread
 	public void run()
 	{
 		Spawn player = new Spawn(0,-1);
+		Spawn arror = new Spawn(0, -1, 100, 100, 15, TYPE.ARROW);
 		Main.objects.add(player);
 		curTime = System.currentTimeMillis();
 		initializeConstForces();
