@@ -47,9 +47,7 @@ public class Main {
         String path = "assets/img/";
         for (TYPE t : TYPE.values()) {
             try {
-                if (t != TYPE.CANNONBALL && t != TYPE.FIREBALL) {
                     images.put(t, ImageIO.read(new File(path + t.toString() + ".png")));
-                }
             }
             catch (IOException e) {
                 e.printStackTrace();
