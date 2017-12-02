@@ -13,7 +13,7 @@ public class Vector2D
 
 	public double angle()
 	{
-//		System.out.println("Angle val X: " + x);
+//		System.out.println("Angle val screenWidth: " + x);
 //		System.out.println("\n Angle val y: " + y);
 
 		return Math.atan2(y, x);
