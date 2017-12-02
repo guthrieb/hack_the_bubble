@@ -11,7 +11,11 @@ public class MoveEngine extends Thread {
     public void run() {
         Spawn player = new Spawn(300, -100);
         Main.objects.add(player);
-        Main.objects.add(Spawn.generateArrow(player.getX() + 500, player.getY() + 500, 0, 0));
+//        Main.objects.add(Spawn.generateArrow(player.getX() + 500, player.getY() + 500, 0, 0));
+
+        Spawn bg = new Spawn(0, Main.screenHeight, 0, 0, 0, 1, 0, TYPE.GROUND);
+        Main.objects.add(bg);
+
         curTime = System.currentTimeMillis();
         initializeConstForces();
 
@@ -141,7 +145,8 @@ public class MoveEngine extends Thread {
         }
         ArrayList<Spawn> remove = new ArrayList<>();
         for (Spawn s : Main.objects) {
-            if (s.hp <= 0) {
+            if (s.hp <= 0 && s.type != TYPE.DRAGON && s.type != TYPE.GROUND) {
+                System.out.println("removing " + s.type + " due to loss of HP");
                 remove.add(s);
             }
         }
@@ -212,6 +217,7 @@ public class MoveEngine extends Thread {
         }
 		if (s.getX() > maxX) {
             if(s.type == TYPE.ARROW || s.type == TYPE.CANNONBALL){
+                System.out.println("removing " + s.type);
                 Main.objects.remove(s);
             }
             else {
@@ -221,6 +227,7 @@ public class MoveEngine extends Thread {
         }
 		if (s.getX() < 1) {
             if(s.type == TYPE.ARROW|| s.type == TYPE.CANNONBALL){
+                System.out.println("removing " + s.type);
                 Main.objects.remove(s);
             }
             else {

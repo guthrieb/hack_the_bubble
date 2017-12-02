@@ -7,25 +7,27 @@ public class Spawn {
     public Vector2D rotation;
     public TYPE type;
 
-  public int hp;
+    public int hp;
 
-  public Spawn(double x, double y, double vx, double vy, double m, double anglex, double angley,  TYPE type)
-  {
-    this.x = x;
-    this.y = y;
-    this.vx = vx;
-    this.vy = vy;
-    this.radius = m;
-    this.rotation = new Vector2D(anglex,angley );
-    this.type = type;
+    public Spawn(double x, double y, double vx, double vy, double m, double anglex, double angley, TYPE type) {
+        this.x = x;
+        this.y = y;
+        this.vx = vx;
+        this.vy = vy;
+        this.radius = m;
+        this.rotation = new Vector2D(anglex, angley);
+        this.type = type;
 
-    if (type == TYPE.ARROW) {
-      hp = 2;
+        if (type == TYPE.ARROW) {
+            hp = 2;
+        }
+        else if (type == TYPE.DRAGON) {
+            hp = 10;
+        }
+        else if (type == TYPE.GROUND) {
+            hp = Integer.MAX_VALUE;
+        }
     }
-    else if (type == TYPE.DRAGON) {
-      hp = 10;
-    }
-  }
 
     public TYPE getType() {
         return this.type;
@@ -57,59 +59,59 @@ public class Spawn {
         Spawn newarrow = new Spawn(x, y, vx, vy, 10, vx, vy, TYPE.ARROW);
 
         return newarrow;
-  }
-
-  public static Spawn generateCannonball(double vx, double vy) {
-      Spawn player = Main.objects.get(0);
-    double y = 0.25*Main.screenHeight;
-    double ran = Math.random();
-    double x;
-    if (ran<0.5) {
-      x = 0;
-    }
-    else {
-      x = Main.screenWidth;
-      vx*=-1;
-    }
-    Spawn cball = new Spawn(x, y, vx, vy, 20, vx, vy, TYPE.CANNONBALL);
-    return cball;
-  }
-
-  public static Spawn generateDirectedArrow(double x) {
-    Spawn dragon = Main.objects.get(0);
-
-    double yod = dragon.y;
-    double voyd = dragon.vy;
-
-    double xod = dragon.x;
-    double voxd = dragon.vx;
-
-    double t = 10; //pick t for collision
-    double yd = yod+voyd*t+0.5*Main.GRAVITY*t*t;
-
-    double va = 300;
-    double yoa = Main.screenHeight;
-    double xoa = x;
-
-    double inside = (yd-yoa)/(va*t+0.5*Main.GRAVITY*t*t)%(2*Math.PI);
-
-    double theta = Math.asin(inside);
-
-    double vy = va*Math.sin(theta);
-    double vx = va*Math.cos(theta);
-
-    if (xoa<xod) {
-      vx*=-1;
     }
 
-    Spawn newArrow = new Spawn(xoa, yoa, vx, vy, 10, vx, vy, TYPE.ARROW);
-    return newArrow;
-  }
+    public static Spawn generateCannonball(double vx, double vy) {
+        Spawn player = Main.objects.get(0);
+        double y = 0.25 * Main.screenHeight;
+        double ran = Math.random();
+        double x;
+        if (ran < 0.5) {
+            x = 0;
+        }
+        else {
+            x = Main.screenWidth;
+            vx *= -1;
+        }
+        Spawn cball = new Spawn(x, y, vx, vy, 20, vx, vy, TYPE.CANNONBALL);
+        return cball;
+    }
 
-  public static Spawn generateFlames(){
-    Spawn player = Main.objects.get(0);
+    public static Spawn generateDirectedArrow(double x) {
+        Spawn dragon = Main.objects.get(0);
 
-      Spawn flame = new Spawn(player.getX(), player.getY(), player.vx * 2, player.vy * 2, 10, player.vx * 2, player.vy * 2, TYPE.FIREBALL);
+        double yod = dragon.y;
+        double voyd = dragon.vy;
+
+        double xod = dragon.x;
+        double voxd = dragon.vx;
+
+        double t = 10; //pick t for collision
+        double yd = yod + voyd * t + 0.5 * Main.GRAVITY * t * t;
+
+        double va = 300;
+        double yoa = Main.screenHeight;
+        double xoa = x;
+
+        double inside = (yd - yoa) / (va * t + 0.5 * Main.GRAVITY * t * t) % (2 * Math.PI);
+
+        double theta = Math.asin(inside);
+
+        double vy = va * Math.sin(theta);
+        double vx = va * Math.cos(theta);
+
+        if (xoa < xod) {
+            vx *= -1;
+        }
+
+        Spawn newArrow = new Spawn(xoa, yoa, vx, vy, 10, vx, vy, TYPE.ARROW);
+        return newArrow;
+    }
+
+    public static Spawn generateFlames() {
+        Spawn player = Main.objects.get(0);
+
+        Spawn flame = new Spawn(player.getX(), player.getY(), player.vx * 2, player.vy * 2, 10, player.vx * 2, player.vy * 2, TYPE.FIREBALL);
 
         return flame;
     }
@@ -151,7 +153,8 @@ public class Spawn {
 
     public void updatePos(double newX, double newY) {
         this.x = newX;
-        this.y = newY;
+        if (y < Main.screenHeight-50)
+            this.y = newY;
     }
 
     public double vx() {
@@ -207,14 +210,14 @@ public class Spawn {
      * @return x coordinate relative to dragon
      */
     public int getRelativeX() {
-        return (int) (this.x - Main.objects.get(0).x + Main.screenWidth/2);
+        return (int) (this.x - Main.objects.get(0).x + Main.screenWidth / 2);
     }
 
     /**
      * @return y coordinate relative to dragon
      */
     public int getRelativeY() {
-        return (int) (this.y - Main.objects.get(0).y + Main.screenHeight/2);
+        return (int) (this.y - Main.objects.get(0).y + Main.screenHeight / 2);
     }
 
 }
