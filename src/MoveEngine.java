@@ -12,7 +12,6 @@ public class MoveEngine extends Thread {
         Spawn player = new Spawn(300, -100);
         Main.objects.add(player);
         Main.objects.add(Spawn.generateArrow(player.getX() + 500, player.getY() + 500, 0, 0));
-        Main.objects.add(Spawn.generateCannonball(50, 50));
         curTime = System.currentTimeMillis();
         initializeConstForces();
 

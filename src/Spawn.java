@@ -60,6 +60,7 @@ public class Spawn {
   }
 
   public static Spawn generateCannonball(double vx, double vy) {
+      Spawn player = Main.objects.get(0);
     double y = 0.25*Main.screenHeight;
     double ran = Math.random();
     double x;
