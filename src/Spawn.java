@@ -77,7 +77,7 @@ public class Spawn {
     double yd = yod+voyd*t+0.5*Main.GRAVITY*t*t;
 
     double va = 300;
-    double yoa = Main.Y;
+    double yoa = Main.screenHeight;
     double xoa = x;
 
     double inside = (yd-yoa)/(va*t+0.5*Main.GRAVITY*t*t)%(2*Math.PI);

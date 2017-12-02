@@ -197,8 +197,8 @@ public class MoveEngine extends Thread
 
 	private synchronized void checkWallCollisions(Spawn s)
 	{
-		int maxY = Main.Y - s.dimY();
-		int maxX = Main.X - s.dimX();
+		int maxY = Main.screenHeight - s.dimY();
+		int maxX = Main.screenWidth - s.dimX();
 
         if (s.getY() > maxY) {
 		    if(s.type == TYPE.ARROW || s.type == TYPE.DRAGON){
