@@ -12,14 +12,18 @@ public class MoveEngine extends Thread
 	public void run()
 	{
 		Spawn player = new Spawn(0,-1);
-		Spawn arror = new Spawn(0, -1, 100, 100, 15, TYPE.ARROW);
 		Main.objects.add(player);
 		curTime = System.currentTimeMillis();
 		initializeConstForces();
+
 		while (Main.isRunning) {
-			player = Main.objects.get(0);
-			//System.out.println(player.getX());
+//		    if(Main.objects.size() == 0){
+//                Spawn newArrow = Spawn.generateArrow(10, 980, 1000, -800);
+//                Main.objects.add(newArrow);
+//            }
+
 			updatePlayerV();
+
 			updateTime();
 			applyConstForces();
 			sumForces();
@@ -31,27 +35,25 @@ public class MoveEngine extends Thread
 		}
 	}
 
+
+
 	private void updatePlayerV()
 	{
 		Spawn player = Main.objects.get(0);
 
 		if(Keys.leftDown){
 			player.rotation.rotateCoordinates(0.003);
-            System.out.println(player.rotation.angle());
         }
 
 		if(Keys.rightDown){
 			player.rotation.rotateCoordinates(-0.003);
-            System.out.println(player.rotation.angle());
 		}
 
         if(Keys.upDown){
 			double angle = Math.toRadians(player.rotation.angle());
 
 			double ax = Main.UPA*(Math.cos(player.rotation.angle()));
-            System.out.println("x component: " + ax);
             double ay = Main.UPA*(Math.sin(player.rotation.angle()));
-            System.out.println("y component: " + ay);
 
 			player.addAccel(new Accel(ax, ay));
 		}
@@ -65,6 +67,7 @@ public class MoveEngine extends Thread
 		timePassed = (curTime - lastTime);
 		timeFraction = (timePassed / 1000.0);
 	}
+
 
 	private void initializeConstForces()
 	{
@@ -175,17 +178,30 @@ public class MoveEngine extends Thread
 	{
 		int maxY = Main.Y - s.dimY();
 		int maxX = Main.X - s.dimX();
-		if (s.getY() > maxY) {
-			s.updatePos(s.getX(), maxY);
-			s.updateVelocity(s.vx(), (s.vy() * -Main.BOUNCE));
+
+        if (s.getY() > maxY) {
+		    if(s.type == TYPE.ARROW){
+		        Main.objects.remove(s);
+            }else{
+                s.updatePos(s.getX(), maxY);
+                s.updateVelocity(s.vx(), (s.vy() * -Main.BOUNCE));
+            }
 		}
 		if (s.getX() > maxX) {
-			s.updatePos(maxX, s.getY());
-			s.updateVelocity((s.vx() * -Main.BOUNCE), s.vy());
+            if(s.type == TYPE.ARROW){
+                Main.objects.remove(s);
+            }else {
+                s.updatePos(maxX, s.getY());
+                s.updateVelocity((s.vx() * -Main.BOUNCE), s.vy());
+            }
 		}
 		if (s.getX() < 1) {
-			s.updatePos(1, s.getY());
-			s.updateVelocity((s.vx() * -Main.BOUNCE), s.vy());
+            if(s.type == TYPE.ARROW){
+                Main.objects.remove(s);
+            }else {
+                s.updatePos(1, s.getY());
+                s.updateVelocity((s.vx() * -Main.BOUNCE), s.vy());
+            }
 		}
 	}
 }

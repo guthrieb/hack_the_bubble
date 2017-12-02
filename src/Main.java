@@ -23,6 +23,10 @@ public class Main
     public static final double DRAG = 0.2;
     public static final double BOUNCE = 0.9;
     public static final String TITLE = "Dragonbois";
+
+    public static final double INIT_ARROW_DX = 1000;
+    public static final double INIT_ARR_DY = 1500;
+
     private static JFrame f;
     private static Canvas c;
     public static BufferStrategy b;
@@ -115,7 +119,7 @@ public class Main
                                              double vy, int m)
     {
         if (objects.size() >= MAX_SPAWN) return 1;
-        objects.add(new Spawn(x, y, vx, vy, m));
+        objects.add(new Spawn(x, y, vx, vy, m, 0, -1, TYPE.DRAGON));
         return 0;
     }
 

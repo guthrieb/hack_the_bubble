@@ -6,16 +6,16 @@ public class Spawn
   private double x, y, vx, vy, radius;
   private ArrayList<Accel> accelerations = new ArrayList<Accel>();
   public Vector2D rotation;
-  private TYPE type;
+  public TYPE type;
 
-  public Spawn(int x, int y, double vx, double vy, int m, TYPE type)
+  public Spawn(int x, int y, double vx, double vy, int m, double anglex, double angley,  TYPE type)
   {
     this.x = x;
     this.y = y;
     this.vx = vx;
     this.vy = vy;
-    this.radius = 15.0;
-    this.rotation = new Vector2D(0,-1 );
+    this.radius = m;
+    this.rotation = new Vector2D(anglex,angley );
     this.type = type;
   }
 
@@ -23,15 +23,25 @@ public class Spawn
       return this.type;
     }
 
+
+
+
+
   public Spawn(int x, int y)
   {
-    this(x, y, 0.0, 0.0, 100, TYPE.DRAGON);
+    this(x, y, 0.0, 0.0, 10, 0.1, 0.1, TYPE.DRAGON);
   }
 
   public Vector2D velVector()
   {
     return new Vector2D(this.vx(), this.vy());
   }
+
+    public static Spawn generateArrow(int x, int y, int vx, int vy){
+        Spawn newarrow = new Spawn(x, y, vx, vy, 10, vx, vy, TYPE.ARROW);
+
+        return newarrow;
+    }
 
   public void applyDrag(double drag)
   {
@@ -57,8 +67,19 @@ public class Spawn
 
   public void updateVelocity(double vx, double vy)
   {
+
     this.vx = vx;
     this.vy = vy;
+
+    if(this.type == TYPE.ARROW){
+        updateRot(vx, vy);
+    }
+
+  }
+
+  public void updateRot(double newX, double newY){
+        this.rotation.x = newX;
+        this.rotation.y = newY;
   }
 
   public void updatePos(double newX, double newY)
