@@ -26,7 +26,7 @@ public class Main {
     private static BufferedImage bufferedImage;
     private static Graphics graphics;
     private static Graphics2D g2d;
-    public static ArrayList<Spawn> objects = new ArrayList<Spawn>();
+    public static ArrayList<Spawn> objects = new ArrayList<>();
     public static boolean isRunning = true;
     public static final double UPA = 1500;
 
@@ -52,7 +52,7 @@ public class Main {
             catch (IOException e) {
                 e.printStackTrace();
                 System.out.println(t.toString());
-                System.exit(-1);
+                System.exit(1);
             }
         }
     }
@@ -63,7 +63,7 @@ public class Main {
         BufferedImage img = images.get(TYPE.DRAGON);
         double iw2 = img.getWidth() / 2, ih2 = img.getHeight() / 2;
         AffineTransform affineTransform = new AffineTransform();
-        affineTransform.translate(screenWidth/2 - iw2, screenHeight/2 - ih2);
+        affineTransform.translate(screenWidth / 2 - iw2, screenHeight / 2 - ih2);
         affineTransform.rotate(objects.get(0).rotation.angle(), iw2, ih2);
         g2d.drawRenderedImage(img, affineTransform);
     }
