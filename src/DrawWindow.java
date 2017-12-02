@@ -32,7 +32,7 @@ public class DrawWindow {
 
     //    public static final int MAX_SPAWN = 30;
     public static final int X = 2000;
-    public static final int Y = 1000;
+    public static final int Y = 100000;
     public static final double GRAVITY = 1000;
     //    public static final double DRAG = 0.2;
     public static final double BOUNCE = 0.9;
@@ -54,7 +54,7 @@ public class DrawWindow {
 
         private void renderObject(Graphics2D g, Spawn s) {
             AffineTransform at = AffineTransform.getScaleInstance(0.1, 0.1);
-            at.rotate(s.rotation.angle());
+//            at.rotate(s.rotation.angle());
             at.translate(s.getX(), s.getY());
             g.drawRenderedImage(img, at);
         }
@@ -65,8 +65,10 @@ public class DrawWindow {
             super.paintComponent(g);
             setBackground(Color.WHITE);
 
-            g.setColor(Color.YELLOW);
-            for (Spawn s : objects) renderObject((Graphics2D) g, s);
+            Graphics2D g2d = (Graphics2D) g;
+            g2d.setColor(Color.WHITE);
+            g2d.fillRect(0, 0, X, Y);
+            for (Spawn s : objects) renderObject(g2d, s);
 
             // Printing texts
             g.setColor(Color.WHITE);
@@ -85,7 +87,6 @@ public class DrawWindow {
         mainWindow.setLocationRelativeTo(null);
         mainWindow.setTitle("Here Be Dragons!");
         mainWindow.setVisible(true);
-
     }
 
     private static void setKeyInteraction() {
@@ -111,6 +112,7 @@ public class DrawWindow {
         String imgName = "dragon.jpg";
         try {
             img = ImageIO.read(new File(path + imgName));
+
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -130,8 +132,14 @@ public class DrawWindow {
             MoveEngine me = new MoveEngine();
             me.start();
 
-            for (int i = 0; i < 100; i++) {
+            while (isRunning){
                 mainWindow.update(pane.getGraphics());
+                try {
+                    Thread.sleep(15);
+                }
+                catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
 

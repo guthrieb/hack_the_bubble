@@ -23,9 +23,19 @@ public class Spawn
       return this.type;
     }
 
-
-
-
+  @Override
+  public String toString() {
+    return "Spawn{" +
+            "x=" + x +
+            ", y=" + y +
+            ", vx=" + vx +
+            ", vy=" + vy +
+            ", radius=" + radius +
+//            ", accelerations=" + accelerations +
+//            ", rotation=" + rotation +
+            ", type=" + type +
+            '}';
+  }
 
   public Spawn(int x, int y)
   {

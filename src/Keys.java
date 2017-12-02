@@ -13,7 +13,7 @@ public class Keys implements KeyListener {
   }
 
   public void keyPressed(KeyEvent e) {
-      System.out.println("Hello");
+//      System.out.println("Hello");
     int code = e.getKeyCode();
     switch(code) {
       case KeyEvent.VK_UP:

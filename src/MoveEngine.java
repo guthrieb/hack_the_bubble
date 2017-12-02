@@ -11,14 +11,14 @@ public class MoveEngine extends Thread
 	public void run()
 	{
 		Spawn player = new Spawn(0,-1);
-		DrawWindow.objects.add(player);
+		Main.objects.add(player);
 		curTime = System.currentTimeMillis();
 		initializeConstForces();
 
-		while (DrawWindow.isRunning) {
-//		    if(DrawWindow.objects.size() == 0){
+		while (Main.isRunning) {
+//		    if(Main.objects.size() == 0){
 //                Spawn newArrow = Spawn.generateArrow(10, 980, 1000, -800);
-//                DrawWindow.objects.add(newArrow);
+//                Main.objects.add(newArrow);
 //            }
 
 			updatePlayerV();
@@ -38,7 +38,7 @@ public class MoveEngine extends Thread
 
 	private void updatePlayerV()
 	{
-		Spawn player = DrawWindow.objects.get(0);
+		Spawn player = Main.objects.get(0);
 
 		if(Keys.leftDown){
 			player.rotation.rotateCoordinates(0.003);
@@ -51,8 +51,8 @@ public class MoveEngine extends Thread
         if(Keys.upDown){
 			double angle = Math.toRadians(player.rotation.angle());
 
-			double ax = DrawWindow.UPA*(Math.cos(player.rotation.angle()));
-            double ay = DrawWindow.UPA*(Math.sin(player.rotation.angle()));
+			double ax = Main.UPA*(Math.cos(player.rotation.angle()));
+            double ay = Main.UPA*(Math.sin(player.rotation.angle()));
 
 			player.addAccel(new Accel(ax, ay));
 		}
@@ -70,7 +70,7 @@ public class MoveEngine extends Thread
 
 	private void initializeConstForces()
 	{
-		constForces.add(new Accel(0.0, DrawWindow.GRAVITY));
+		constForces.add(new Accel(0.0, Main.GRAVITY));
 	}
 
 	private synchronized void applyConstForces()
@@ -82,16 +82,16 @@ public class MoveEngine extends Thread
 			yAccel += constForces.get(i).ay();
 		}
 		// Apply the sum acceleration to each entity.
-		for (int i = 0; i < DrawWindow.objects.size(); i++) {
-			Spawn s = DrawWindow.objects.get(i);
+		for (int i = 0; i < Main.objects.size(); i++) {
+			Spawn s = Main.objects.get(i);
 			s.addAccel(new Accel(xAccel, yAccel));
 		}
 	}
 
 	private synchronized void sumForces()
 	{
-		for (int i = 0; i < DrawWindow.objects.size(); i++) {
-			Spawn s = DrawWindow.objects.get(i);
+		for (int i = 0; i < Main.objects.size(); i++) {
+			Spawn s = Main.objects.get(i);
 			// Get the sum of all accelerations acting on object.
 			Accel theAccel = s.sumAccel();
 			// Apply the resulting change in velocity.
@@ -103,8 +103,8 @@ public class MoveEngine extends Thread
 
 	private synchronized void moveEnts()
 	{
-		for (int i = 0; i < DrawWindow.objects.size(); i++) {
-			Spawn s = DrawWindow.objects.get(i);
+		for (int i = 0; i < Main.objects.size(); i++) {
+			Spawn s = Main.objects.get(i);
 			// Get the initial x and y coords.
 			double oldX = s.getX(), oldY = s.getY();
 			// Calculate the new x and y coords.
@@ -118,11 +118,11 @@ public class MoveEngine extends Thread
 
 	private synchronized void checkCollisions()
 	{
-		for (int i = 0; i < DrawWindow.objects.size() - 1; i++) {
-			Spawn s = DrawWindow.objects.get(i);
+		for (int i = 0; i < Main.objects.size() - 1; i++) {
+			Spawn s = Main.objects.get(i);
 			Point2D sCenter = s.getCenter();
-			for (int j = i + 1; j < DrawWindow.objects.size(); j++) {
-				Spawn t = DrawWindow.objects.get(j);
+			for (int j = i + 1; j < Main.objects.size(); j++) {
+				Spawn t = Main.objects.get(j);
 				if (t == null) break;
 				Point2D tCenter = t.getCenter();
 				double distBetween = sCenter.distance(tCenter);
@@ -159,8 +159,8 @@ public class MoveEngine extends Thread
 		sVel.restoreCoordinates();
 		tVel.restoreCoordinates();
 		// Give each object its new velocity.
-		s.updateVelocity(sVel.x * DrawWindow.BOUNCE, sVel.y * DrawWindow.BOUNCE);
-		t.updateVelocity(tVel.x * DrawWindow.BOUNCE, tVel.y * DrawWindow.BOUNCE);
+		s.updateVelocity(sVel.x * Main.BOUNCE, sVel.y * Main.BOUNCE);
+		t.updateVelocity(tVel.x * Main.BOUNCE, tVel.y * Main.BOUNCE);
 		// Back them up in the opposite angle so they are not overlapping.
 		double minDist = s.getRadius() + t.getRadius();
 		double overlap = minDist - distBetween;
@@ -175,31 +175,31 @@ public class MoveEngine extends Thread
 
 	private synchronized void checkWallCollisions(Spawn s)
 	{
-		int maxY = DrawWindow.Y - s.dimY();
-		int maxX = DrawWindow.X - s.dimX();
+		int maxY = Main.Y - s.dimY();
+		int maxX = Main.X - s.dimX();
 
         if (s.getY() > maxY) {
 		    if(s.type == TYPE.ARROW){
-		        DrawWindow.objects.remove(s);
+		        Main.objects.remove(s);
             }else{
                 s.updatePos(s.getX(), maxY);
-                s.updateVelocity(s.vx(), (s.vy() * -DrawWindow.BOUNCE));
+                s.updateVelocity(s.vx(), (s.vy() * -Main.BOUNCE));
             }
 		}
 		if (s.getX() > maxX) {
             if(s.type == TYPE.ARROW){
-                DrawWindow.objects.remove(s);
+                Main.objects.remove(s);
             }else {
                 s.updatePos(maxX, s.getY());
-                s.updateVelocity((s.vx() * -DrawWindow.BOUNCE), s.vy());
+                s.updateVelocity((s.vx() * -Main.BOUNCE), s.vy());
             }
 		}
 		if (s.getX() < 1) {
             if(s.type == TYPE.ARROW){
-                DrawWindow.objects.remove(s);
+                Main.objects.remove(s);
             }else {
                 s.updatePos(1, s.getY());
-                s.updateVelocity((s.vx() * -DrawWindow.BOUNCE), s.vy());
+                s.updateVelocity((s.vx() * -Main.BOUNCE), s.vy());
             }
 		}
 	}
